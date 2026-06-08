@@ -1,8 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 
-const authRoutes = require("./routes/authRoutes");
-const rateLimitMiddleware = require("./middleware/rateLimitMiddleware");
+const authRoutes = require("./src/routes/authRoutes");
+const rateLimitMiddleware = require("./src/middleware/rateLimitMiddleware");
 
 const app = express();
 
