@@ -1,24 +1,25 @@
-/*
-
+// Declaration: import Express and required files
 const express = require("express");
+
+// Import controller functions
 const { register, login } = require("../controllers/authController");
 
-const router = express.Router();
-
-router.post("/register", register);
-router.post("/login", login);
-
-module.exports = router;*/
-const express = require("express");
-const { register, login } = require("../controllers/authController");
+// Import middleware
 const authMiddleware = require("../middleware/authMiddleware");
 const roleMiddleware = require("../middleware/roleMiddleware");
+const loginRateLimitMiddleware = require("../middleware/loginRateLimitMiddleware");
 
+// Create an Express router for authentication routes
 const router = express.Router();
 
+// Public route: register a new user
 router.post("/register", register);
-router.post("/login", login);
 
+// Public route: log in an existing user
+// Login route protected by 3-attempt limiter
+router.post("/login", loginRateLimitMiddleware, login);
+
+// Protected route: test auth middleware and return the logged-in user
 router.get("/me", authMiddleware, (req, res) => {
   res.json({
     message: "Auth middleware is working",
@@ -26,6 +27,7 @@ router.get("/me", authMiddleware, (req, res) => {
   });
 });
 
+// Protected route: only admin users can access this route
 router.get(
   "/admin-only",
   authMiddleware,
@@ -38,6 +40,7 @@ router.get(
   }
 );
 
+// Protected route: only customer users can access this route
 router.get(
   "/customer-only",
   authMiddleware,
@@ -50,4 +53,19 @@ router.get(
   }
 );
 
+router.get("/driver-only", authMiddleware, roleMiddleware("driver"), (req, res) => {
+  res.json({
+    message: "Driver access granted",
+    user: req.user,
+  });
+});
+
+router.get("/restaurant-only", authMiddleware, roleMiddleware("restaurant"), (req, res) => {
+  res.json({
+    message: "Restaurant access granted",
+    user: req.user,
+  });
+});
+
+// Export router so app.js can use these routes
 module.exports = router;

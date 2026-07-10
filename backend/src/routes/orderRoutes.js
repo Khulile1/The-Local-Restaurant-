@@ -1,11 +1,22 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const orderController = require('../controllers/orderController');
 
-router.post('/', orderController.createOrder);
-router.get('/', orderController.getOrders);
-router.get('/:id', orderController.getOrder);
-router.put('/:id', orderController.updateOrder);
-router.delete('/:id', orderController.deleteOrder);
+const {
+  createOrder,
+  findOrder,
+  findsOrder,
+  updateOrder,
+  deleteOrder,
+} = require("../controllers/orderController");
+
+router.get("/test", (req, res) => {
+  res.json({ message: "order routes working" });
+});
+
+router.post("/", createOrder);
+router.get("/", findOrder);
+router.get("/:id", findsOrder);
+router.put("/:id", updateOrder);
+router.delete("/:id", deleteOrder);
 
 module.exports = router;

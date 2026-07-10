@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 
+router.get("/test", (req, res) => {
+  res.json({ message: "Menu item routes working" });
+});
+
 router.post('/', userController.createUser);
 router.get('/', userController.getUsers);
 router.get('/:id', userController.getUser);

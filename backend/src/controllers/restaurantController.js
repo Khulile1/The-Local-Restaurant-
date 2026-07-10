@@ -1,22 +1,53 @@
-const Restaurant = require('../models/restaurant');
+//201 // created successfully
+//200 // fetched, updated, or deleted successfully
+//404 // item not found
+//500 // server/database error
+//400 // bad user input
 
-exports.createRestaurant = async (req, res) => {
-    try { const doc = await Restaurant.create(req.body); res.status(201).json(doc); } 
-    catch (err) { res.status(500).json({ message: err.message }); }
-};
-exports.getRestaurants = async (req, res) => {
-    try { const docs = await Restaurant.find(); res.json(docs); } 
-    catch (err) { res.status(500).json({ message: err.message }); }
-};
-exports.getRestaurant = async (req, res) => {
-    try { const doc = await Restaurant.findById(req.params.id); if (!doc) return res.status(404).json({ message: 'Not found' }); res.json(doc); } 
-    catch (err) { res.status(500).json({ message: err.message }); }
-};
-exports.updateRestaurant = async (req, res) => {
-    try { const doc = await Restaurant.findByIdAndUpdate(req.params.id, req.body, { new: true }); res.json(doc); } 
-    catch (err) { res.status(500).json({ message: err.message }); }
-};
-exports.deleteRestaurant = async (req, res) => {
-    try { await Restaurant.findByIdAndDelete(req.params.id); res.json({ message: 'Deleted successfully' }); } 
-    catch (err) { res.status(500).json({ message: err.message }); }
-};
+const restaurant = require("../models/restaurant");
+
+ const restaurantCreate = async (req, res) =>{
+ try { const createRestaurant = await restaurant.create(req.body);
+       res.status(201).json(createRestaurant)
+    
+ } catch (error) {res.status(500).json({Message: error.Message})
+    
+ }
+}
+
+ const restaurantFind = async (req, res) =>{
+ try { const findRestaurant = await restaurant.find();
+       res.status(200).json(findRestaurant)
+    
+ } catch (error) {res.status(500).json({Message: error.Message})
+    
+ }
+}
+
+ const restaurantFinds = async (req, res) =>{
+ try { const findsRestaurant = await restaurant.findById(req.params.id);
+       res.status(200).json(findsRestaurant)
+    
+ } catch (error) {res.status(500).json({Message: error.Message})
+    
+ }
+}
+
+ const restaurantUpdate = async (req, res) =>{
+ try { const updateRestaurant = await restaurant.findAndUpdate(req.params.id);
+       res.status(200).json(updateRestaurant)
+    
+ } catch (error) {res.status(500).json({Message: error.Message})
+    
+ }
+}
+
+ const restaurantDelete = async (req, res) =>{
+ try { const deleteRestaurant = await restaurant.findAndDelete(req.params.id);
+       res.status(200).json(deleteRestaurant)
+    
+ } catch (error) {res.status(500).json({Message: error.Message})
+    
+ }
+}
+module.exports = {restaurantCreate, restaurantFind, restaurantFinds, restaurantUpdate, restaurantDelete};

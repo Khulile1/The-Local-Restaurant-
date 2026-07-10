@@ -1,22 +1,80 @@
-const MenuItem = require('../models/MenuItem');
+//201 // created successfully
+//200 // fetched, updated, or deleted successfully
+//404 // item not found
+//500 // server/database error
+//400 // bad user input
+const menuItem = require("../models/menuItem");
 
-exports.createMenuItem = async (req, res) => {
-    try { const doc = await MenuItem.create(req.body); res.status(201).json(doc); } 
-    catch (err) { res.status(500).json({ message: err.message }); }
+
+
+const createMenuItem = async (req, res) => {
+  try {
+    const createItem = await menuItem.create(req.body);
+    res.status(201).json(createItem);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
-exports.getMenuItems = async (req, res) => {
-    try { const docs = await MenuItem.find().populate('restaurant_id'); res.json(docs); } 
-    catch (err) { res.status(500).json({ message: err.message }); }
+
+const getMenuItems = async (req, res) => {
+  try {
+    const getItems = await menuItem.find();
+    res.status(200).json(getItems);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
-exports.getMenuItem = async (req, res) => {
-    try { const doc = await MenuItem.findById(req.params.id).populate('restaurant_id'); if (!doc) return res.status(404).json({ message: 'Not found' }); res.json(doc); } 
-    catch (err) { res.status(500).json({ message: err.message }); }
+
+const getMenuItem = async (req, res) => {
+  try {
+    const getItem = await menuItem.findById(req.params.id);
+
+    if (!getItem) {
+      return res.status(404).json({ message: "Menu item not found" });
+    }
+
+    res.status(200).json(getItem);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
-exports.updateMenuItem = async (req, res) => {
-    try { const doc = await MenuItem.findByIdAndUpdate(req.params.id, req.body, { new: true }); res.json(doc); } 
-    catch (err) { res.status(500).json({ message: err.message }); }
+
+const updateMenuItem = async (req, res) => {
+  try {
+    const updateItem = await menuItem.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+
+    if (!updateItem) {
+      return res.status(404).json({ message: "Menu item not found" });
+    }
+
+    res.status(200).json(updateItem);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
-exports.deleteMenuItem = async (req, res) => {
-    try { await MenuItem.findByIdAndDelete(req.params.id); res.json({ message: 'Deleted successfully' }); } 
-    catch (err) { res.status(500).json({ message: err.message }); }
+
+const deleteMenuItem = async (req, res) => {
+  try {
+    const deleteItem = await menuItem.findByIdAndDelete(req.params.id);
+
+    if (!deleteItem) {
+      return res.status(404).json({ message: "Menu item not found" });
+    }
+
+    res.status(200).json({ message: "Deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = {
+  createMenuItem,
+  getMenuItems,
+  getMenuItem,
+  updateMenuItem,
+  deleteMenuItem,
 };

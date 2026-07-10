@@ -1,11 +1,24 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const menuItemController = require('../controllers/menuItemController');
 
-router.post('/', menuItemController.createMenuItem);
-router.get('/', menuItemController.getMenuItems);
-router.get('/:id', menuItemController.getMenuItem);
-router.put('/:id', menuItemController.updateMenuItem);
-router.delete('/:id', menuItemController.deleteMenuItem);
+const {
+  createMenuItem,
+  getMenuItems,
+  getMenuItem,
+  updateMenuItem,
+  deleteMenuItem,
+} = require("../controllers/menuItemController");
+
+
+
+router.get("/test", (req, res) => {
+  res.json({ message: "Menu item routes working" });
+});
+
+router.post("/", createMenuItem);
+router.get("/", getMenuItems);
+router.get("/:id", getMenuItem);
+router.put("/:id", updateMenuItem);
+router.delete("/:id", deleteMenuItem);
 
 module.exports = router;
