@@ -158,42 +158,29 @@ const CustomerDashboard = () => {
           HERO SECTION
       ========================== */}
 
-      <section className="dashboard-hero">
-        <div className="hero-content">
-          <div className="hero-text">
-            <p className="hero-small-text">Hungry? We've got you covered! 🍴</p>
+      {/* <section className="dashboard-hero"> */}
+      {/* <div className="hero-content"> */}
+      {/* <div className="hero-text"> */}
+      {/* Search */}
+      {/* <div className="food-search">
+            <span className="search-icon">🔍</span>
 
-            <h1>
-              Good food,
-              <br />
-              <span>good mood.</span>
-            </h1>
+            <input
+              type="text"
+              placeholder="Search for food..."
+              value={search}
+              onChange={handleSearch}
+            />
 
-            <p className="hero-description">
-              Discover delicious meals from your favourite local restaurants and
-              get them delivered straight to your door.
-            </p>
+            <button>Search</button>
+          </div> */}
+      {/* </div> */}
 
-            {/* Search */}
-            <div className="food-search">
-              <span className="search-icon">🔍</span>
-
-              <input
-                type="text"
-                placeholder="Search for food..."
-                value={search}
-                onChange={handleSearch}
-              />
-
-              <button>Search</button>
-            </div>
-          </div>
-
-          <div className="hero-food">
-            <div className="hero-circle">🍔</div>
-          </div>
-        </div>
-      </section>
+      {/* <div className="hero-food"> */}
+      {/* <div className="hero-circle">🍔</div> */}
+      {/* </div> */}
+      {/* </div> */}
+      {/* </section> */}
 
       {/* =========================
           MAIN CONTENT
