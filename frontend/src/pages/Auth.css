@@ -146,3 +146,19 @@
     font-size: 26px;
   }
 }
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.brand h1 {
+  margin: 0;
+}
+
+.food-icon {
+  font-size: 38px;
+  line-height: 1;
+}

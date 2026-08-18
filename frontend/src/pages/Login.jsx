@@ -7,12 +7,15 @@ const Login = () => {
     email: "",
     password: "",
   });
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -21,6 +24,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setError("");
     setLoading(true);
 
@@ -35,16 +39,35 @@ const Login = () => {
 
       const data = await response.json();
 
+      console.log("Login response:", data);
+
       if (!response.ok) {
-        throw new Error(data.message || "Login failed");
+        throw new Error(data.message || "Login failed.");
+      }
+
+      if (!data.token) {
+        throw new Error(
+          "Login successful, but no authentication token was returned.",
+        );
       }
 
       localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+
+      if (data.user) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+      }
 
       navigate("/");
     } catch (err) {
-      setError(err.message);
+      console.error("Login error:", err);
+
+      if (err.name === "TypeError") {
+        setError(
+          "Could not connect to the backend. Make sure the backend is running on port 5000.",
+        );
+      } else {
+        setError(err.message || "Something went wrong during login.");
+      }
     } finally {
       setLoading(false);
     }
@@ -54,15 +77,24 @@ const Login = () => {
     <div className="auth-container">
       <div className="auth-box">
         <div className="auth-header">
-          <h1>Local Byte</h1>
+          {/* Local Byte Logo */}
+          <div className="brand">
+            <span className="food-icon">🍔</span>
+            <h1>Local Byte</h1>
+          </div>
+
           <p>Welcome back! Please login to your account</p>
         </div>
 
+        {/* Error Message */}
         {error && <div className="auth-error">{error}</div>}
 
+        {/* Login Form */}
         <form onSubmit={handleSubmit} className="auth-form">
+          {/* Email */}
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
+
             <input
               type="email"
               id="email"
@@ -74,8 +106,10 @@ const Login = () => {
             />
           </div>
 
+          {/* Password */}
           <div className="form-group">
             <label htmlFor="password">Password</label>
+
             <input
               type="password"
               id="password"
@@ -88,11 +122,13 @@ const Login = () => {
             />
           </div>
 
+          {/* Login Button */}
           <button type="submit" className="auth-btn" disabled={loading}>
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
+        {/* Register Link */}
         <div className="auth-footer">
           <p>
             Don't have an account? <Link to="/register">Register here</Link>
@@ -103,4 +139,4 @@ const Login = () => {
   );
 };
 
-export default Login; // <-- MAKE SURE THIS LINE EXISTS!
+export default Login;
