@@ -47,15 +47,15 @@ app.use(express.json());
 // RATE LIMITING
 // ==============================
 
-app.use(rateLimitMiddleware);
+ app.use(rateLimitMiddleware);
 
 // ==============================
 // TEST ROUTE
 // ==============================
 
-app.get("/", (req, res) => {
+app.get("/api/test", (req, res) => {
   res.json({
-    message: "Local Bite Backend API is running",
+    message: "Backend connected successfully",
   });
 });
 
@@ -79,7 +79,7 @@ app.use("/api/orderItem", orderItemRoutes);
 // PORT
 // ==============================
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT ;
 
 // ==============================
 // START SERVER

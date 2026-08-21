@@ -2,11 +2,18 @@
 const express = require("express");
 
 // Import controller functions
-const { register, login } = require("../controllers/authController");
+const {
+  register,
+  login,
+  verifyEmail,
+  resendVerificationCode,
+} = require("../controllers/authController");
 
 // Import middleware
 const authMiddleware = require("../middleware/authMiddleware");
+
 const roleMiddleware = require("../middleware/roleMiddleware");
+
 const loginRateLimitMiddleware = require("../middleware/loginRateLimitMiddleware");
 
 // Create router
@@ -20,7 +27,23 @@ const router = express.Router();
 router.post("/register", register);
 
 // Login
-router.post("/login", loginRateLimitMiddleware, login);
+router.post(
+  "/login",
+  loginRateLimitMiddleware,
+  login
+);
+
+// Verify email
+router.post(
+  "/verify-email",
+  verifyEmail
+);
+
+// Resend verification code
+router.post(
+  "/resend-verification",
+  resendVerificationCode
+);
 
 // ==============================
 // PROTECTED ROUTES
@@ -44,7 +67,7 @@ router.get(
       message: "Admin access granted",
       user: req.user,
     });
-  },
+  }
 );
 
 // Customer only
@@ -57,21 +80,10 @@ router.get(
       message: "Customer access granted",
       user: req.user,
     });
-  },
+  }
 );
 
-// Driver only
-router.get(
-  "/driver-only",
-  authMiddleware,
-  roleMiddleware("driver"),
-  (req, res) => {
-    res.json({
-      message: "Driver access granted",
-      user: req.user,
-    });
-  },
-);
+
 
 // Restaurant only
 router.get(
@@ -83,7 +95,7 @@ router.get(
       message: "Restaurant access granted",
       user: req.user,
     });
-  },
+  }
 );
 
 // Export router
